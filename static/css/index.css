@@ -155,3 +155,73 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
+.benchmark-objects-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.benchmark-objects-row img {
+  width: 22%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+}
+.paparazzo-gradient {
+  display: inline-block;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+
+  background: linear-gradient(
+    90deg,
+    #2b0a91 0%,
+    #6a11cb 20%,
+    #c2185b 45%,
+    #ff5a00 70%,
+    #ffd000 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+  transition:
+    background-position 5.0s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+}
+
+.paparazzo-gradient:hover {
+  background-position: 100% 50%;
+  filter: saturate(1.15) brightness(1.03);
+}
+
+.method-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 0.4rem;
+}
+
+.paparazzo-inline-icon {
+  width: 78px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  transform: translateY(6px);
+}
+
+.paparazzo-fun {
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+
+.paparazzo-fun:hover {
+  transform: translateY(6px) translateX(10px) rotate(-6deg);
+}

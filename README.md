@@ -1,6 +1,6 @@
-# Learning to Identify Out-of-Distribution Objects for 3D LiDAR Anomaly Segmentation
+# Paparazzo: Active Mapping of Moving 3D Object
 
-This is the repository that contains source code for the [LIDO website](https://github.com/SiMoM0/LIDO).
+This is the repository that contains source code for the [Paparazzo]().
 
 Based on [Nerfies website](https://nerfies.github.io).
 
