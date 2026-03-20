@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Learning to Identify Out-of-Distribution Objects for 3D LiDAR Anomaly Segmentation">
+  <meta name="keywords" content="LIDO, LiDAR Segmentation, Anomaly Segmentation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LIDO: Learning to Identify Out-of-Distribution Objects for 3D LiDAR Anomaly Segmentation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!--<script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+  -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.webp">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <!-- for latex -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+<body>
+
+<style>
+  table {
+    font-size: 14px;
+  }
+  th, td {
+    border: 0px solid #ccc;
+    padding: 6px 10px;
+    text-align: center;
+  }
+  th {
+    background-color: #f5f5f5;
+  }
+</style>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://simom0.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://github.com/SiMoM0/RangeRet">
+            RangeRet
+          </a>
+          <a class="navbar-item" href="https://github.com/SiMoM0/3PNet">
+            3PNet
+          </a>
+          <a class="navbar-item" href="https://github.com/lichonger2/DPGLA">
+            DPGLA
+          </a>
+          <a class="navbar-item" href="https://github.com/Bender97/WaffleAndRange">
+            WaffleAndRange
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Learning to Identify Out-of-Distribution Objects for 3D LiDAR Anomaly Segmentation</h1>
+
+          <p style="font-size: 1.25rem; margin: 1rem 0;">
+            <b>🎉 Accepted to CVPR 2026</span>!🎉</b>
+          </p>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://simom0.github.io/">Simone Mosco</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://bender97.github.io/danielfusaro.github.io/">Daniel Fusaro</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://albertopretto.altervista.org/">Alberto Pretto</a><sup>1</sup>,
+            </span>
+            <!--
+            <span class="author-block">
+              <a href="TODO">Name Surname</a><sup>1</sup>,</span>
+            -->
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Padova</span>
+            <!--<span class="author-block"><sup>1</sup>Uni</span>-->
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <!-- ArXiv Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/SiMoM0/LIDO"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!--
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      -->
+      <img src="./static/images/anomaly_segmentation.png"
+                 alt="3D LiDAR Anomaly Segmentation overview."/>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">3D LiDAR Anomaly Segmentation Overview</span>
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<!--/ Abstract. -->
+<section class="hero is-small is-light py-6">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 mb-5">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Understanding the surrounding environment is fundamental in autonomous driving and robotic perception. Distinguishing between known classes and previously unseen objects is crucial in real-world environments, as done in <b>Anomaly Segmentation</b>. However, research in the 3D field remains limited, with most existing approaches applying post-processing techniques from 2D vision. To cover this lack, we propose a <b>new efficient approach</b> that directly operates in the <b>feature space</b>, modeling the <b>feature distribution</b> of inlier classes to constrain anomalous samples. Moreover, the only publicly available 3D LiDAR anomaly segmentation dataset contains simple scenarios, with few anomaly instances, and exhibits a severe domain gap due to its sensor resolution. To bridge this gap, we introduce a <b>set of mixed real-synthetic datasets</b> for <b>3D LiDAR anomaly segmentation</b>, built upon established semantic segmentation benchmarks, with multiple out-of-distribution objects and diverse, complex environments.
+            Extensive experiments demonstrate that our approach achieves <b>state-of-the-art</b> and <b>competitive results</b> on the existing real-world dataset and the newly introduced mixed datasets, respectively, validating the <b>effectiveness of our method</b> and the <b>utility of the proposed datasets</b>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section pb-3">
+  <div class="container is-max-desktop">
+    <div class="rows">
+      <div class="rows is-centered ">
+        <div class="row is-full-width">
+          <h2 class="title is-3"><span>LIDO</span></h2>
+          <p>
+            <b>LIDO</b> is a novel approach for 3D LiDAR Anomaly Segmentation that directly works on the feature space to model the feature distribution of inlier known classes and identify anomalous objects. It is composed of a backbone to extract per-point features and two branches: the <b>Semantic Head</b> produces semantic segmentation predictions and builds per-class prototypes, while the <b>Contrastive Head</b> directly models feature distribution to identify anomaly instances.
+          </p>
+
+          <br>
+          <br>
+          <br>
+
+          <img src="./static/images/lido_method.png"  class="interpolation-image" alt="LIDO framework overview"> 
+
+          <br>
+          <br>
+          <br>
+
+          <h3 class="title is-4"><span>Semantic Head</span></h3>
+
+          <p>
+            The semantic head is responsible for generating the semantic predictions and, at the same time, constructing a robust prototype for each inlier class. It is optimized with a combination of the cross entropy loss, the Lovasz loss and a proposed confidence-based prototype loss that gathers all points belonging to a certain class closer in the feature space.
+
+          <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: baseline;">
+            <div style="flex: 1 1 400px; text-align: center;">
+              \[
+              \mathcal{L}_{ce} = -\frac{1}{N} \sum_{n=1}^{N} w_c y_n \log(\sigma(f_n)),
+              \]
+            </div>
+
+            <div style="flex: 1 1 400px; text-align: center;">
+              \[
+              \mathcal{L}_\text{prot} = \frac{1}{N} \sum_{c \in C} \sum_{\mathbf{p} \in \mathbf{X}_c} \left( 1 - \left< \text{CP}_c^{e-1}, f_\mathbf{p} \right> \right).
+              \]
+            </div>
+          </div>
+
+          <br>
+          <br>
+
+          <h3 class="title is-4"><span>Contrastive Head</span></h3>
+
+          <p>
+            The aim of the contrastive head is to directly identify points belonging to anomalies by learning discriminative and distinguished per-class prototypes, and modeling their distribution in the feature space. To achieve this, we adopt both the contrastive loss and the objectosphere loss.            
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: baseline;">
+            <div style="flex: 1 1 400px; text-align: center;">
+              \[
+              \mathcal{L}_\text{cont} = - \sum_{c \in C} \log \frac{\exp (  \left < \bar{f}_c, \text{CP}_c^{e-1} \right > / \tau ) }{\sum_{i=1}^C \exp (  \left < \bar{f}_c, \text{CP}_c^{e-1} \right > / \tau )},
+              \]
+            </div>
+
+            <div style="flex: 1 1 400px; text-align: center;">
+              \[
+              \mathcal{L}_\text{obj} =
+              \begin{cases}
+                  \text{max}(r - \|f_\mathbf{p}'\|^2, 0) & \text{if } \mathbf{p} \in \mathcal{D}_{in} \\
+                  \|f_\mathbf{p}'\|^2 & \text{otherwise}
+              \end{cases}.
+            \]
+            </div>
+          </div>
+
+          <br>
+          <br>
+
+          <h3 class="title is-4"><span>Inference</span></h3>
+
+          <p>
+            In order to obtain both semantic segmentation and anomaly predicitons, we combine the outputs of the two heads. The semantic head provides standard semantic segmentation predictions through cosine similarity among prototypes. Both heads produces scores to identify anomaly points, based on cosine similarity, entropy and objectoshpere threshold, which are then combined together to produce the final scores.
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: baseline;">
+            <div style="flex: 1 1 300px; text-align: center;">
+              \[
+              s_n^{cos} = 1 - \text{max}_c(\left< f_n, \text{CP}_c \right>),
+              \]
+            </div>
+
+            <div style="flex: 1 1 300px; text-align: center;">
+              \[
+              s_n^{ent} = - \frac{1}{\log C} \sum_{c \in C} p_{n,c}\log (p_{n,c}),
+              \]
+            </div>
+
+            <div style="flex: 1 1 300px; text-align: center;">
+              \[
+              s_n^{cont} = \text{max}\left ( 0, \left ( 1 - \frac{\| f_n' \|^2}{r} \right ) \right ).
+              \]
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section pb-3">
+  <div class="container is-max-desktop">
+    <div class="rows">
+      <div class="rows is-centered ">
+        <div class="row is-full-width">
+          <h2 class="title is-3"><span>OoD Datasets</span></h2>
+          <p>
+            We introduce a new set of mixed real-synthetic Out-of-Distribution (OoD) datasets for 3D LiDAR anomaly segmentation. These datasets are constructed from three autonomous driving benchmarks with different LiDAR sensor resolutions, complementary to the only available real-world dataset, <a href="https://github.com/kumuji/stu_dataset">STU</a>. We use ModelNet as a source for synthetic anomaly objects, filtering its models to avoid overlap with categories and objects present in real-world LiDAR datasets. To ensure realism, we also introduce a protocol for inserting synthetic objects into real LiDAR scans, manipulating point distributions, intensity values, and aligning them to the LiDAR sensor geometry in a beam-like format.
+            Each dataset contains two different versions, a <i>single</i> and a <i>multi</i> split, comprising respectively a single anomaly object or multiple ones in each single scan.
+          </p>
+
+          <br>
+          <br>
+
+          <p align="center"><b>Table:</b> Comparison of publicly available LiDAR datasets for Anomaly Segmentation. 
+          BB = bounding box, SM = semantic masks, BM = binary masks.</p>
+
+          <table style="border-collapse: collapse; margin: auto;">
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>#Beams</th>
+                <th>Size</th>
+                <th>Labels</th>
+                <th>#OoD Instances</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CODA-KITTI</td>
+                <td>64</td>
+                <td>309</td>
+                <td>BB</td>
+                <td>399</td>
+              </tr>
+              <tr>
+                <td>CODA-nuScenes</td>
+                <td>32</td>
+                <td>134</td>
+                <td>BB</td>
+                <td>1125</td>
+              </tr>
+              <tr>
+                <td>CODA-ONCE</td>
+                <td>40</td>
+                <td>1057</td>
+                <td>BB</td>
+                <td>4413</td>
+              </tr>
+              <tr>
+                <td>SOD</td>
+                <td>16</td>
+                <td>460/530</td>
+                <td>SM</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>STU</td>
+                <td>128</td>
+                <td>8022/1960</td>
+                <td>BM</td>
+                <td>1965/-</td>
+              </tr>
+
+              <!-- Highlight your methods -->
+              <tr style="background-color: #d4f5d4;">
+                <td><b>nuScenes-OoD (Ours)</b></td>
+                <td>32</td>
+                <td>6019</td>
+                <td>SM</td>
+                <td>2398/7268</td>
+              </tr>
+              <tr style="background-color: #d4f5d4;">
+                <td><b>SemanticPOSS-OoD (Ours)</b></td>
+                <td>40</td>
+                <td>500</td>
+                <td>SM</td>
+                <td>196/586</td>
+              </tr>
+              <tr style="background-color: #d4f5d4;">
+                <td><b>SemanticKITTI-OoD (Ours)</b></td>
+                <td>64</td>
+                <td>4071</td>
+                <td>SM</td>
+                <td>1634/4894</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br>
+          <br>
+          <br>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>Available soon.</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!--<a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      -->
+      <a class="icon-link" href="https://github.com/SiMoM0" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Source code of the website from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. If you use, please keep this link in the footer.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
