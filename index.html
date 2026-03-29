@@ -342,19 +342,47 @@
             To this end, the agent actively keeps the object within the camera’s field of view while continuously updating its reconstruction and motion estimate.
             At each time step, the agent rotates to move the segmentation mask toward the image center, and translates to adjust its distance to the object so that the object's apparent size remains approximately half of the image.
           </p> -->
-
+          
           <br>
           <br>
 
-          <h3 class="title is-4"><span>Object Mapping Mode</span></h3>
+          <div class="mode-block">
+            <div style="display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; width: 180px;">
+              <img
+                src="./static/images/eig.jpg"
+                alt="Object Mapping overview"
+                style="width: 100%; height: auto; border-radius: 18px;"
+              />
 
-          <p>
-            The goal of this mode is to move the agent to poses that will significantly improve its reconstruction of the object, while taking into account the object motion as predicted by the EKF.
-          </p>
+              <img
+                src="./static/images/object_mapping.gif"
+                alt="Object Mapping Mode"
+                style="width: 100%; height: auto; border-radius: 25px;"
+              />
+            </div>
+            <br>
+            <div class="text-col">
+              <h3 class="title is-4" style="margin: 0;">
+                <span>Object Mapping Mode</span>
+              </h3>
 
+              <p style="margin: 0;">
+                When the EKF stabilizes, Paparazzo transitions to the <b>Object Mapping Mode</b>.
+                The goal of this mode is to move the agent to poses that will significantly improve its reconstruction of the object, while taking into account the object motion as predicted by the EKF.
+                Paparazzo samples candidate viewpoints \( \mathcal{V} \) relative to the object reference frame, so that they move together with it. The camera centers corresponding to these viewpoints are distributed around the object in a foveated configuration, and the cameras point toward the object.
+                <br>
+                <br>
+                Then Paparazzo trades off between (i) the informativeness of a viewpoint and (ii) the temporal synchronization between the agent and the moving object. To quantify this trade-off, we introduce the following criterion:
+                \[
+                  B(\mathbf{x}, i) = -w_{\text{eig}} \,\mathrm{EIG}(\mathbf{x}) + w_{\text{sync}} \, C_{\text{sync}}(\mathbf{x}, i)
+                \]
+                where \( \mathrm{EIG}(\mathbf{x}) \) is the FisherRF informativeness associated with the candidate viewpoint \( \mathbf{x} \in \mathcal{V} \),
+                and \( C_{\text{sync}}(\mathbf{x}, i) \) is a criterion we introduce to measure how well the agent can synchronize with the motion predicted for the object when attempting to observe the object from viewpoint \( \mathbf{x} \).
+              </p>
+            </div>
+          </div>
           <br>
           <br>
-
         </div>
       </div>
     </div>
