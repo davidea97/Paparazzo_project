@@ -56,6 +56,16 @@
 <body>
 
 <style>
+  .motion-list {
+    list-style-type: disc;
+    padding-left: 30px;
+    margin-top: 10px;
+  }
+
+  .motion-list li {
+    display: list-item;
+    margin-bottom: 10px;
+  }
   table {
     font-size: 14px;
   }
@@ -80,6 +90,13 @@
     flex-shrink: 0;
   }
 
+  .rotated-label {
+    transform: rotate(-90deg);
+    transform-origin: center;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
   .mode-block .text-col {
     display: flex;
     flex-direction: column;
@@ -97,6 +114,56 @@
       width: 100%;
       max-width: 320px;
       align-self: center;
+    }
+  }
+  .qualitative-wrapper {
+    width: min(100%, 1200px);
+    margin: 0 auto;
+  }
+
+  .qualitative-top-labels {
+    display: grid;
+    grid-template-columns: clamp(70px, 10vw, 120px) repeat(4, 1fr);
+    text-align: center;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: clamp(12px, 1.5vw, 18px);
+  }
+
+  .qualitative-main {
+    display: grid;
+    grid-template-columns: clamp(70px, 10vw, 120px) 1fr;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .qualitative-side-labels {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+    justify-items: end;
+    font-weight: 600;
+    font-size: clamp(12px, 1.5vw, 18px);
+    padding-right: 8px;
+  }
+
+  .qualitative-grid-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .figure-caption {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .qualitative-top-labels,
+    .qualitative-side-labels {
+      font-size: 12px;
     }
   }
 </style>
@@ -264,6 +331,11 @@
     <div class="rows">
       <div class="rows is-centered ">
         <div class="row is-full-width">
+          <!-- <div style="text-align: center;">
+            <video autoplay loop muted playsinline style="max-width: 50%; height: auto;">
+              <source src="./static/videos/paparazzo_dynamic_scene.mov" type="video/mp4">
+            </video>
+          </div> -->
           <h2 class="title is-3"><span>Paparazzo</span></h2>
           <p>
             <b>Paparazzo</b> is a learning-free framework for active 3D reconstruction of dynamic objects. Paparazzo considers a set of viewpoints  distributed in a foveal configuration around the target object and moving with it over time. To select the most informative viewpoints, we rely on <b>Fisher Information</b> computed from a <b>3D Gaussian Splatting</b> model, while, to predict the object trajectory and the future positions of these viewpoints, we leverage an <b>Extended Kalman Filter</b>.
@@ -279,11 +351,11 @@
           <br>
           
           <div class="mode-block">
-            <img
+            <!-- <img
               class="side-media"
               src="./static/images/ekf.jpg"
               alt="EKF illustration"
-            />
+            /> -->
 
             <div class="text-col">
               <h3 class="title is-4" style="margin: 0;">
@@ -302,7 +374,11 @@
           </div>
 
           <br><br>
-
+          <div class="text-col">
+              <h3 class="title is-4" style="margin: 0;">
+                <span>Object Tracking Mode</span>
+              </h3>
+              <br>
           <div class="mode-block">
             <img
               class="side-media"
@@ -311,41 +387,23 @@
               style="border-radius: 25px;"
             />
 
-            <div class="text-col">
-              <h3 class="title is-4" style="margin: 0;">
-                <span>Object Tracking Mode</span>
-              </h3>
+            
 
               <p style="margin: 0;">
-                When the EKF is not reliable, Paparazzo transitions to the Object Tracking Mode to re-localize the object and stabilize the EKF.
+                When the EKF is not reliable, Paparazzo transitions to the <b>Object Tracking Mode</b> to <b>re-localize</b> the object and <b>stabilize</b> the EKF.
                 The goal of this mode is to prioritize frequent observations of the target object in order to refine motion estimates.
-                To this end, the agent actively keeps the object within the camera’s field of view while continuously updating its reconstruction and motion estimate.
+                To this end, the agent <b>actively keeps</b> the object within the <b>camera’s field of view</b> while continuously updating its reconstruction and motion estimate.
                 At each time step, the agent rotates to move the segmentation mask toward the image center, and translates to adjust its distance to the object so that the object's apparent size remains above a certain threshold.
               </p>
             </div>
           </div>
 
-          <!-- <h3 class="title is-4" style="margin-bottom: 10px;">
-            <span>Object Tracking Mode</span>
-          </h3>
-
-          <div style="text-align: center; margin-bottom: 14px;">
-            <img
-              src="./static/images/object_tracking.gif"
-              alt="Object Tracking Mode"
-              style="width: 60%; max-width: 500px; height: auto; border-radius: 12px;"
-            />
-          </div>
-
-          <p style="margin: 0;">
-            The goal of this mode is to prioritize frequent observations of the target object in order to refine motion estimates.
-            To this end, the agent actively keeps the object within the camera’s field of view while continuously updating its reconstruction and motion estimate.
-            At each time step, the agent rotates to move the segmentation mask toward the image center, and translates to adjust its distance to the object so that the object's apparent size remains approximately half of the image.
-          </p> -->
-          
           <br>
           <br>
-
+          <h3 class="title is-4" style="margin: 0;">
+                <span>Object Mapping Mode</span>
+              </h3>
+              <br>
           <div class="mode-block">
             <div style="display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; width: 180px;">
               <img
@@ -362,9 +420,7 @@
             </div>
             <br>
             <div class="text-col">
-              <h3 class="title is-4" style="margin: 0;">
-                <span>Object Mapping Mode</span>
-              </h3>
+              
 
               <p style="margin: 0;">
                 When the EKF stabilizes, Paparazzo transitions to the <b>Object Mapping Mode</b>.
@@ -372,7 +428,7 @@
                 Paparazzo samples candidate viewpoints \( \mathcal{V} \) relative to the object reference frame, so that they move together with it. The camera centers corresponding to these viewpoints are distributed around the object in a foveated configuration, and the cameras point toward the object.
                 <br>
                 <br>
-                Then Paparazzo trades off between (i) the informativeness of a viewpoint and (ii) the temporal synchronization between the agent and the moving object. To quantify this trade-off, we introduce the following criterion:
+                Then Paparazzo trades off between (i) the <b>informativeness of a viewpoint</b> and (ii) the <b>temporal synchronization</b> between the agent and the moving object. To quantify this trade-off, we introduce the following criterion:
                 \[
                   B(\mathbf{x}, i) = -w_{\text{eig}} \,\mathrm{EIG}(\mathbf{x}) + w_{\text{sync}} \, C_{\text{sync}}(\mathbf{x}, i)
                 \]
@@ -381,6 +437,13 @@
               </p>
             </div>
           </div>
+          
+          <br>
+          <br>
+          <video id="teaser" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/paparazzo_dynamic_scene.mov"
+                    type="video/mp4">
+          </video>
           <br>
           <br>
         </div>
@@ -397,12 +460,11 @@
           <h2 class="title is-3"><span>Benchmark</span></h2>
           <p>
             To evaluate our Paparazzo method, we introduce a dedicated benchmark and evaluation protocol designed to assess both reconstruction fidelity and spatial coverage over time. 
-            Experiments are conducted within Habitat 3.0, a high-performance 3D simulator that provides realistic indoor environments and robot displacements.
-            We selected six photorealistic indoor scenes, three from the Matterport3D dataset (M) and three from the Gibson dataset (G), commonly used for static active mapping.
+            Experiments are conducted within <b>Habitat 3.0</b>, a high-performance 3D simulator that provides realistic indoor environments and robot displacements.
+            We selected <b>six photorealistic indoor scenes</b>, three from the <b>Matterport3D</b> dataset (M) and three from the <b>Gibson</b> dataset (G), commonly used for static active mapping.
             To extend these static scenes to dynamic scenarios, we introduce a synthetic moving target object into each environment.
           </p>
           <br>
-  
 
           <div class="benchmark-objects-row">
             <img src="./static/images/object1.jpg" alt="Object 1">
@@ -410,88 +472,67 @@
             <img src="./static/images/object3.jpg" alt="Object 3">
             <img src="./static/images/object4.jpg" alt="Object 4">
           </div>
+          <br>
+          <br>
+          <p><b>Object Motion Protocol</b></p>
+            <p>
+              To comprehensively assess reconstruction performance under diverse object motion dynamics, we consider four motion patterns for the target:
+            </p>
+
+            <ul class="motion-list">
+              <li><b>Bouncing Ball:</b> upon collision, the object randomly changes orientation and continues in the new direction.</li>
+              <li><b>Forward &amp; Backward:</b> the object moves along a straight line without changing orientation, moving forward until collision and then reversing direction.</li>
+              <li><b>Stop &amp; Go:</b> similar to <i>Bouncing Ball</i>, but with intermittent stops—pausing every <i>S</i> steps and resuming after <i>G</i> steps—to simulate non-uniform velocity.</li>
+            </ul>
 
           <br>
           <br>
+          <p><b>Baselines</b></p>
+          <p>
+            We compare Paparazzo against <b>three baselines</b> designed to isolate the contributions of viewpoint selection, motion prediction, and temporal feasibility:
+          </p>
 
-          <!-- <p align="center"><b>Table:</b> Comparison of publicly available LiDAR datasets for Anomaly Segmentation. 
-          BB = bounding box, SM = semantic masks, BM = binary masks.</p> -->
-
-          <!-- <table style="border-collapse: collapse; margin: auto;">
-            <thead>
-              <tr>
-                <th>Dataset</th>
-                <th>#Beams</th>
-                <th>Size</th>
-                <th>Labels</th>
-                <th>#OoD Instances</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>CODA-KITTI</td>
-                <td>64</td>
-                <td>309</td>
-                <td>BB</td>
-                <td>399</td>
-              </tr>
-              <tr>
-                <td>CODA-nuScenes</td>
-                <td>32</td>
-                <td>134</td>
-                <td>BB</td>
-                <td>1125</td>
-              </tr>
-              <tr>
-                <td>CODA-ONCE</td>
-                <td>40</td>
-                <td>1057</td>
-                <td>BB</td>
-                <td>4413</td>
-              </tr>
-              <tr>
-                <td>SOD</td>
-                <td>16</td>
-                <td>460/530</td>
-                <td>SM</td>
-                <td>-</td>
-              </tr>
-              <tr>
-                <td>STU</td>
-                <td>128</td>
-                <td>8022/1960</td>
-                <td>BM</td>
-                <td>1965/-</td>
-              </tr>
-
-              <tr style="background-color: #d4f5d4;">
-                <td><b>nuScenes-OoD (Ours)</b></td>
-                <td>32</td>
-                <td>6019</td>
-                <td>SM</td>
-                <td>2398/7268</td>
-              </tr>
-              <tr style="background-color: #d4f5d4;">
-                <td><b>SemanticPOSS-OoD (Ours)</b></td>
-                <td>40</td>
-                <td>500</td>
-                <td>SM</td>
-                <td>196/586</td>
-              </tr>
-              <tr style="background-color: #d4f5d4;">
-                <td><b>SemanticKITTI-OoD (Ours)</b></td>
-                <td>64</td>
-                <td>4071</td>
-                <td>SM</td>
-                <td>1634/4894</td>
-              </tr>
-            </tbody>
-          </table> -->
-
+          <ul class="motion-list">
+            <li><b>Random Walk (RW)</b>: a classical baseline in active mapping for static scenes. The agent moves randomly across the environment, accumulating object point clouds whenever the object falls within its field of view, without considering the object motion.</li>
+            <li><b>Random Informative Selection (RIS)</b>: an ablation of our method that selects, at each mapping iteration, a random feasible pose among the \(N_h \times |\mathcal{V}|\) informative candidate viewpoints, ignoring both the synchronization cost and the predicted feasibility of observing the object from that position. </li>
+            <li><b>Tracking-Only (TO)</b>: we keep the agent in Object Tracking Mode, a purely passive strategy that continuously tracks the object’s motion using the EKF but performs no active viewpoint selection or mapping, serving as a lower bound for reconstruction completeness.</li>
+          </ul>
           <br>
           <br>
           <br>
 
+          <div class="qualitative-wrapper">
+            <div class="qualitative-top-labels">
+              <div class="corner-cell"></div>
+              <div>RW</div>
+              <div>RIS</div>
+              <div>TO</div>
+              <div>Paparazzo</div>
+            </div>
+
+            <div class="qualitative-main">
+              <!-- <div class="qualitative-side-labels">
+                <div>Object 1</div>
+                <div>Object 2</div>
+                <div>Object 3</div>
+                <div>Object 4</div>
+              </div> -->
+              <div class="qualitative-side-labels">
+                <div class="rotated-label">Object 1</div>
+                <div class="rotated-label">Object 2</div>
+                <div class="rotated-label">Object 3</div>
+                <div class="rotated-label">Object 4</div>
+              </div>
+
+              <img src="./static/images/qualitative.jpg"
+                  class="qualitative-grid-image"
+                  alt="Qualitative results">
+            </div>
+
+            <!-- <p class="figure-caption">
+              Columns correspond to RW, RIS, TO, and Paparazzo. Rows correspond to Object 1, Object 2, Object 3, and Object 4.
+            </p> -->
+          </div>
         </div>
       </div>
     </div>
