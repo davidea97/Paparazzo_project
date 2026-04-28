@@ -1,5 +1,24 @@
 body {
   font-family: 'Noto Sans', sans-serif;
+  color: #2f343d;
+}
+
+p,
+li {
+  line-height: 1.62;
+}
+
+.section {
+  padding-top: 3.25rem;
+  padding-bottom: 3.25rem;
+}
+
+.section .title.is-3 {
+  margin-bottom: 1.2rem;
+}
+
+.section .title.is-4 {
+  color: #242b36;
 }
 
 
@@ -162,6 +181,7 @@ body {
   align-items: center;
   gap: 16px;
   flex-wrap: nowrap;
+  margin: 12px 0 20px;
 }
 
 .benchmark-objects-row img {
@@ -172,10 +192,39 @@ body {
   object-fit: contain;
   background: #fff;
   border: 1px solid #fff;
+  filter: drop-shadow(0 8px 18px rgba(35, 45, 64, 0.08));
 }
 
 .benchmark-objects-row img {
   display: block;
+}
+
+.section img.interpolation-image,
+.section img[src$="pipeline_paparazzo.jpg"],
+.section img[src$="paparazzo_teaser.jpg"] {
+  width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+
+.section img[src$="pipeline_paparazzo.jpg"],
+.section img[src$="paparazzo_teaser.jpg"] {
+  box-shadow: 0 12px 32px rgba(35, 45, 64, 0.09);
+}
+
+.hero.teaser img {
+  border-radius: 8px;
+}
+
+.motion-list {
+  background: #fbfcfe;
+  border-left: 3px solid #c2185b;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px 8px 30px;
+}
+
+.figure-caption {
+  color: #606a78;
 }
 .paparazzo-gradient {
   display: inline-block;
