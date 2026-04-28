@@ -164,16 +164,18 @@ body {
   flex-wrap: nowrap;
 }
 
-.benchmark-objects-row img,
-.benchmark-objects-row model-viewer {
+.benchmark-objects-row img {
   width: 22%;
   max-width: 200px;
   height: 200px;
   border-radius: 8px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid #fff;
 }
 
 .benchmark-objects-row img {
-  height: auto;
+  display: block;
 }
 .paparazzo-gradient {
   display: inline-block;
