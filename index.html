@@ -66,6 +66,8 @@
       let animationStarted = false;
       const pointSize = 0.1;
       const colorBrightness = 2.5;
+      const autoRotateResumeDelay = 3500;
+      const autoRotateResumeTimers = new Map();
 
       function resizeViewer(viewer) {
         const rect = viewer.container.getBoundingClientRect();
@@ -201,6 +203,37 @@
         };
       }
 
+      function clearAutoRotateResumeTimer(groupName) {
+        const timer = autoRotateResumeTimers.get(groupName);
+
+        if (timer) {
+          clearTimeout(timer);
+          autoRotateResumeTimers.delete(groupName);
+        }
+      }
+
+      function pauseGroupAutoRotate(viewer) {
+        clearAutoRotateResumeTimer(viewer.groupName);
+
+        viewer.groupViewers.forEach((groupViewer) => {
+          groupViewer.controls.autoRotate = false;
+          groupViewer.container.classList.add('has-interacted');
+        });
+      }
+
+      function scheduleGroupAutoRotateResume(viewer) {
+        clearAutoRotateResumeTimer(viewer.groupName);
+
+        const timer = setTimeout(() => {
+          viewer.groupViewers.forEach((groupViewer) => {
+            groupViewer.controls.autoRotate = true;
+          });
+          autoRotateResumeTimers.delete(viewer.groupName);
+        }, autoRotateResumeDelay);
+
+        autoRotateResumeTimers.set(viewer.groupName, timer);
+      }
+
       viewerElements.forEach((container) => {
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xf7f8fb);
@@ -236,20 +269,18 @@
         }
 
         const groupViewers = viewerGroups.get(groupName);
-        const viewer = { container, scene, camera, renderer, controls, groupViewers };
+        const viewer = { container, scene, camera, renderer, controls, groupViewers, groupName };
         groupViewers.push(viewer);
         allViewers.push(viewer);
 
-        container.addEventListener('pointerdown', () => {
-          groupViewers.forEach((groupViewer) => {
-            groupViewer.controls.autoRotate = false;
-            groupViewer.container.classList.add('has-interacted');
-          });
+        controls.addEventListener('start', () => {
+          pauseGroupAutoRotate(viewer);
           container.classList.add('is-interacting');
           syncView(viewer);
         });
-        window.addEventListener('pointerup', () => {
+        controls.addEventListener('end', () => {
           container.classList.remove('is-interacting');
+          scheduleGroupAutoRotateResume(viewer);
         });
         controls.addEventListener('change', () => syncView(viewer));
 
