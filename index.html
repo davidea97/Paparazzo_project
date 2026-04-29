@@ -227,6 +227,7 @@
         const timer = setTimeout(() => {
           viewer.groupViewers.forEach((groupViewer) => {
             groupViewer.controls.autoRotate = true;
+            groupViewer.container.classList.remove('has-interacted');
           });
           autoRotateResumeTimers.delete(viewer.groupName);
         }, autoRotateResumeDelay);
@@ -730,7 +731,7 @@
 
 
 <section class="hero hero-video-bg">
-  <video id="bg-video" autoplay muted loop playsinline poster="./static/images/teaser.png">
+  <video id="bg-video" autoplay muted loop playsinline preload="auto" poster="./static/images/teaser.png">
     <source src="./static/videos/teaser_opt.mp4?v=2"
             type="video/mp4">
   </video>

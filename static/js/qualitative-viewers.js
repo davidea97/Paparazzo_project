@@ -184,6 +184,7 @@ function initPlyViewers() {
     const timer = setTimeout(() => {
       viewer.groupViewers.forEach((groupViewer) => {
         groupViewer.controls.autoRotate = true;
+        groupViewer.container.classList.remove('has-interacted');
       });
       autoRotateResumeTimers.delete(viewer.groupName);
     }, autoRotateResumeDelay);
